@@ -1,0 +1,11 @@
+# IDE & editor settings
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini

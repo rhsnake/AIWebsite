@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the Stop Killing Games initiative. Add your voice to the campaign demanding that video game publishers leave purchased games in a playable state.">
+    <title>Join the Initiative — Stop Killing Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js"></script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "#website",
+                "name": "Stop Killing Games",
+                "url": "https://www.stopkillinggames.com",
+                "inLanguage": "en"
+            },
+            {
+                "@type": "ContactPage",
+                "name": "Join the Initiative — Stop Killing Games",
+                "isPartOf": { "@id": "#website" },
+                "description": "Sign up to support the Stop Killing Games consumer rights initiative.",
+                "potentialAction": {
+                    "@type": "JoinAction",
+                    "name": "Join Stop Killing Games",
+                    "target": "https://www.stopkillinggames.com/join"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        /* Join page — supplemental layout only */
+        .join-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .join-sidebar {
+            position: sticky;
+            top: calc(var(--nav-height) + 2rem);
+        }
+
+        .info-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 2rem;
+            margin-bottom: 1.25rem;
+            transition: background-color var(--ease);
+        }
+
+        .info-block .label { display: block; margin-bottom: 0.75rem; }
+        .info-block h4 { margin-bottom: 0.5rem; }
+        .info-block p { font-size: 0.88rem; }
+
+        .info-block + .info-block { }
+
+        .privacy-note {
+            font-size: 0.78rem;
+            color: var(--text-faint);
+            line-height: 1.6;
+            margin-top: 1.5rem;
+        }
+
+        .form-section-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .form-section + .form-section { margin-top: 2.5rem; }
+
+        .submit-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .submit-disclaimer {
+            font-size: 0.78rem;
+            color: var(--text-faint);
+            flex: 1;
+            min-width: 200px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .join-layout {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .join-sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ======================================================================
+     Navigation
+     ====================================================================== -->
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+        <a class="nav-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+
+        <ul class="nav-links" id="nav-links" role="list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="milestones.html">Milestones</a></li>
+            <li><a href="join.html">Join</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <button class="nav-mobile-btn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span><span></span>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================================================================
+     Main Content
+     ====================================================================== -->
+<main>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <span class="label">Get Involved</span>
+            <h1>Join the Initiative</h1>
+            <p class="lead">
+                Add your voice to the campaign. Every supporter strengthens the case before legislators
+                and demonstrates the scale of consumer demand for game preservation rights.
+            </p>
+        </div>
+    </header>
+
+    <!-- Form Section -->
+    <section class="section">
+        <div class="container">
+            <div class="join-layout">
+
+                <!-- Form -->
+                <div>
+                    <form class="form-container" action="#" method="post" novalidate aria-label="Join the initiative">
+
+                        <!-- Personal Details -->
+                        <fieldset style="border:none;">
+                            <legend class="form-section-title">Personal Details</legend>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="first-name">First Name <span class="form-required">*</span></label>
+                                    <input class="form-input" type="text" id="first-name" name="first_name" placeholder="Jane" autocomplete="given-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="last-name">Last Name <span class="form-required">*</span></label>
+                                    <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Smith" autocomplete="family-name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address <span class="form-required">*</span></label>
+                                <input class="form-input" type="email" id="email" name="email" placeholder="jane.smith@example.com" autocomplete="email" required>
+                                <p class="form-hint">Used only to confirm your submission. We do not share your email.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="country">Country of Residence <span class="form-required">*</span></label>
+                                <select class="form-select" id="country" name="country" required>
+                                    <option value="" disabled selected>Select your country</option>
+                                    <optgroup label="European Union">
+                                        <option value="AT">Austria</option>
+                                        <option value="BE">Belgium</option>
+                                        <option value="BG">Bulgaria</option>
+                                        <option value="HR">Croatia</option>
+                                        <option value="CY">Cyprus</option>
+                                        <option value="CZ">Czech Republic</option>
+                                        <option value="DK">Denmark</option>
+                                        <option value="EE">Estonia</option>
+                                        <option value="FI">Finland</option>
+                                        <option value="FR">France</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="GR">Greece</option>
+                                        <option value="HU">Hungary</option>
+                                        <option value="IE">Ireland</option>
+                                        <option value="IT">Italy</option>
+                                        <option value="LV">Latvia</option>
+                                        <option value="LT">Lithuania</option>
+                                        <option value="LU">Luxembourg</option>
+                                        <option value="MT">Malta</option>
+                                        <option value="NL">Netherlands</option>
+                                        <option value="PL">Poland</option>
+                                        <option value="PT">Portugal</option>
+                                        <option value="RO">Romania</option>
+                                        <option value="SK">Slovakia</option>
+                                        <option value="SI">Slovenia</option>
+                                        <option value="ES">Spain</option>
+                                        <option value="SE">Sweden</option>
+                                    </optgroup>
+                                    <optgroup label="Other">
+                                        <option value="GB">United Kingdom</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="AU">Australia</option>
+                                        <option value="OTHER">Other</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <!-- Optional -->
+                        <fieldset style="border:none;" class="form-section">
+                            <legend class="form-section-title">Optional</legend>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reason">Why does this matter to you?</label>
+                                <textarea class="form-textarea" id="reason" name="reason" placeholder="Share your experience or reason for supporting this initiative…"></textarea>
+                                <p class="form-hint">Optional. Your message may be shared publicly as a testimonial, anonymised unless you indicate otherwise.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="newsletter" id="newsletter">
+                                    <span class="form-checkbox-label">Keep me informed about the initiative's progress and major developments via email.</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="share_public" id="share_public">
+                                    <span class="form-checkbox-label">I consent to my name and country being listed publicly among supporters of the initiative.</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Agreements -->
+                        <fieldset style="border:none;" class="form-section">
+                            <legend class="form-section-title">Declaration</legend>
+
+                            <div class="form-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="agree_terms" id="agree_terms" required>
+                                    <span class="form-checkbox-label">I confirm that I am submitting this form voluntarily in support of the Stop Killing Games consumer rights initiative, and that the information I have provided is accurate. <span class="form-required">*</span></span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <div class="submit-row">
+                            <button type="submit" class="btn btn-primary">Submit Support</button>
+                            <p class="submit-disclaimer">
+                                This form is for demonstration purposes and does not submit data.
+                                To sign the official European Citizens' Initiative, visit
+                                <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">stopkillinggames.com</a>.
+                            </p>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="join-sidebar">
+                    <div class="info-block">
+                        <span class="label">Why Sign?</span>
+                        <h4>Your voice has legislative weight</h4>
+                        <p>
+                            The European Citizens' Initiative is a democratic mechanism that compels the European
+                            Commission to respond. Every verified signature directly contributes to the political
+                            pressure necessary to produce legislation.
+                        </p>
+                    </div>
+
+                    <div class="info-block">
+                        <span class="label">Who Can Sign</span>
+                        <h4>EU citizens &amp; residents</h4>
+                        <p>
+                            Any citizen of an EU member state aged 18 or over may sign the official ECI.
+                            UK residents may support the parallel campaign through the appropriate UK mechanism.
+                        </p>
+                    </div>
+
+                    <div class="info-block">
+                        <span class="label">Current Status</span>
+                        <h4>Formal review underway</h4>
+                        <p>
+                            The initiative has crossed one million signatures and has been formally submitted
+                            to the European Commission. The Commission is now in its six-month review period.
+                        </p>
+                        <p style="margin-top:0.75rem;">
+                            <a href="milestones.html">View full timeline →</a>
+                        </p>
+                    </div>
+
+                    <p class="privacy-note">
+                        This awareness site does not collect or store any personal data.
+                        To sign the official petition, please visit the official
+                        <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">Stop Killing Games website</a>.
+                    </p>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ======================================================================
+     Footer
+     ====================================================================== -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-inner">
+            <a class="footer-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="milestones.html">Milestones</a>
+                <a href="join.html">Join</a>
+                <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">Official Site ↗</a>
+            </nav>
+            <p class="footer-legal">Awareness site. Not affiliated with<br>the official Stop Killing Games initiative.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
