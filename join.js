@@ -58,8 +58,20 @@
                     submitBtn.disabled    = true;
                     submitBtn.textContent = 'Submitting…';
 
+                    var getData = document.getElementById.bind(document);
+                    var record = {
+                        user_id:      session.user.id,
+                        first_name:   getData('first-name').value.trim(),
+                        last_name:    getData('last-name').value.trim(),
+                        email:        getData('email').value.trim(),
+                        country:      getData('country').value,
+                        reason:       getData('reason').value.trim(),
+                        newsletter:   getData('newsletter').checked,
+                        share_public: getData('share_public').checked
+                    };
+
                     client.from('initiative_joins')
-                        .insert({ user_id: session.user.id })
+                        .insert(record)
                         .then(function (result) {
                             if (result.error) {
                                 if (statusMsg) statusMsg.textContent = 'Something went wrong. Please try again.';
