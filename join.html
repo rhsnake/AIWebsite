@@ -6,6 +6,9 @@
     <meta name="description" content="Join the Stop Killing Games initiative. Add your voice to the campaign demanding that video game publishers leave purchased games in a playable state.">
     <title>Join the Initiative — Stop Killing Games</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
     <script src="main.js"></script>
 
     <script type="application/ld+json">
@@ -162,6 +165,20 @@
 
                 <!-- Form -->
                 <div>
+
+                    <!-- Shown when logged in + already joined -->
+                    <div id="already-joined" hidden>
+                        <div class="callout">
+                            <p><strong>Thank you!</strong> You have already joined the Stop Killing Games initiative. Your support has been recorded.</p>
+                        </div>
+                    </div>
+
+                    <!-- Join form (visible to all; submit enabled only when logged in + not yet joined) -->
+                    <div id="join-form-wrapper">
+                        <p id="join-login-hint" hidden style="margin-bottom:1.25rem; color:var(--text-muted); font-size:0.9rem;">
+                            <a href="login.html">Log in</a> to submit your support.
+                        </p>
+
                     <form class="form-container" action="#" method="post" novalidate aria-label="Join the initiative">
 
                         <!-- Personal Details -->
@@ -267,15 +284,18 @@
                         </fieldset>
 
                         <div class="submit-row">
-                            <button type="submit" class="btn btn-primary">Submit Support</button>
+                            <button type="submit" class="btn btn-primary" disabled>Log in to submit</button>
                             <p class="submit-disclaimer">
-                                This form is for demonstration purposes and does not submit data.
                                 To sign the official European Citizens' Initiative, visit
                                 <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">stopkillinggames.com</a>.
                             </p>
                         </div>
 
                     </form>
+                    </div><!-- /#join-form-wrapper -->
+
+                    <p id="join-status-msg" style="color:var(--accent); margin-top:1rem;"></p>
+
                 </div>
 
                 <!-- Sidebar -->
@@ -312,7 +332,8 @@
                     </div>
 
                     <p class="privacy-note">
-                        This awareness site does not collect or store any personal data.
+                        Account email is used solely to verify your submission.
+                        No data is shared with third parties.
                         To sign the official petition, please visit the official
                         <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">Stop Killing Games website</a>.
                     </p>
@@ -343,5 +364,6 @@
     </div>
 </footer>
 
+<script src="join.js"></script>
 </body>
 </html>

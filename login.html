@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in or create an account to track your support for the Stop Killing Games initiative.">
+    <title>Login — Stop Killing Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        /* Login page — supplemental layout only */
+        .auth-layout {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .auth-panel-toggle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-panel-toggle a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-panel-toggle a:hover { text-decoration: underline; }
+
+        .auth-feedback {
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            min-height: 1.2em;
+        }
+
+        .auth-feedback--error   { color: var(--accent); }
+        .auth-feedback--success { color: #16a34a; }
+
+        [data-theme="dark"] .auth-feedback--success { color: #4ade80; }
+    </style>
+</head>
+<body>
+
+<!-- ======================================================================
+     Navigation
+     ====================================================================== -->
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+        <a class="nav-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+
+        <ul class="nav-links" id="nav-links" role="list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="milestones.html">Milestones</a></li>
+            <li><a href="join.html">Join</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <button class="nav-mobile-btn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span><span></span>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================================================================
+     Main Content
+     ====================================================================== -->
+<main>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="label">Account</span>
+            <h1>Sign In</h1>
+            <p class="lead">
+                Log in to track your support for the initiative, or create a free account.
+            </p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="auth-layout">
+
+                <!-- Sign-in panel (default visible) -->
+                <div id="signin-panel">
+                    <form class="form-container" id="login-form" novalidate aria-label="Sign in">
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-email">Email Address</label>
+                            <input class="form-input" type="email" id="login-email" name="email"
+                                   placeholder="jane.smith@example.com" autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">Password</label>
+                            <input class="form-input" type="password" id="login-password" name="password"
+                                   autocomplete="current-password" required>
+                        </div>
+
+                        <p id="login-error" class="auth-feedback auth-feedback--error" aria-live="polite"></p>
+
+                        <div style="margin-top:1.5rem;">
+                            <button type="submit" class="btn btn-primary">Sign In</button>
+                        </div>
+
+                    </form>
+
+                    <p class="auth-panel-toggle">
+                        Don't have an account? <a href="#" id="show-register">Create one</a>
+                    </p>
+                </div>
+
+                <!-- Register panel (hidden by default) -->
+                <div id="register-panel" hidden>
+                    <form class="form-container" id="register-form" novalidate aria-label="Create account">
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-email">Email Address</label>
+                            <input class="form-input" type="email" id="reg-email" name="email"
+                                   placeholder="jane.smith@example.com" autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="reg-password">Password</label>
+                            <input class="form-input" type="password" id="reg-password" name="password"
+                                   autocomplete="new-password" required>
+                            <p class="form-hint">Minimum 6 characters.</p>
+                        </div>
+
+                        <p id="register-error" class="auth-feedback auth-feedback--error" aria-live="polite"></p>
+                        <p id="register-success" class="auth-feedback auth-feedback--success" aria-live="polite"></p>
+
+                        <div style="margin-top:1.5rem;">
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+
+                    </form>
+
+                    <p class="auth-panel-toggle">
+                        Already have an account? <a href="#" id="show-signin">Sign in</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ======================================================================
+     Footer
+     ====================================================================== -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-inner">
+            <a class="footer-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="milestones.html">Milestones</a>
+                <a href="join.html">Join</a>
+                <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">Official Site ↗</a>
+            </nav>
+            <p class="footer-legal">Awareness site. Not affiliated with<br>the official Stop Killing Games initiative.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="login.js"></script>
+</body>
+</html>

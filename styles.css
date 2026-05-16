@@ -240,6 +240,18 @@ main { flex: 1; padding-top: var(--nav-height); }
     transition: all 0.2s ease;
 }
 
+.nav-auth { display: flex; align-items: center; gap: 0.75rem; }
+.nav-user-email {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.nav-logout-btn,
+.nav-login-btn { font-size: 0.78rem; padding: 0.4rem 0.9rem; }
+
 /* --------------------------------------------------------------------------
    Hero
    -------------------------------------------------------------------------- */

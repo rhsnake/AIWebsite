@@ -1,18 +1,11 @@
 #Context
-I want to create a static webpage to spread awareness about the stop killing games initative. It should explain what the initative is about, the creator, the goals of the initative, the milestones including time and place(where it happened). I want to to have a minimalistic, formal and professional look.
+I want to add user login and registration feature on my site.Users can login with email and password, and when logged in, the website would know whether they have already joined the initative and would change the form in the join.html to a thank you message.
 
 #Objective
-A static webpage to spread awareness about the stop killing games initative.
-Have a toggle for dark mode for the site.
+We are using vanilla frontend and supabse for our backend,database and authentication provider. Do not use or suggest any other tech stack.
 
 #Details
-Pages:
--Home
--About us
--Major Milestones
--Join the initative (with a form for entering personal details to join the initative)*
-*Page just need looks not functionality for now.
 
 
-#Example
-Format of Schema.org
+#Restrictions
+Do not check or edit anything in the V1 folder.
