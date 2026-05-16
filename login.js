@@ -16,6 +16,13 @@
         var showRegister  = document.getElementById('show-register');
         var showSignIn    = document.getElementById('show-signin');
 
+        var googleBtn = document.getElementById('google-signin-btn');
+        googleBtn.addEventListener('click', function () {
+            googleBtn.disabled    = true;
+            googleBtn.textContent = 'Redirecting…';
+            client.auth.signInWithOAuth({ provider: 'google' });
+        });
+
         var loginForm     = document.getElementById('login-form');
         var registerForm  = document.getElementById('register-form');
         var loginError    = document.getElementById('login-error');
