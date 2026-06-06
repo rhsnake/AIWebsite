@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin console — Stop Killing Games blog management.">
+    <title>Admin — Stop Killing Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        /* ── Access check overlay ── */
+        .admin-gate {
+            text-align: center;
+            padding: 5rem 0;
+            color: var(--text-faint);
+        }
+
+        /* ── Toolbar ── */
+        .admin-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .admin-toolbar h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            letter-spacing: 0;
+        }
+
+        /* ── Post form panel ── */
+        .post-form-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .post-form-panel h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .form-error {
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 0.75rem;
+            min-height: 1.2em;
+        }
+
+        .form-textarea-tall { min-height: 220px; }
+
+        /* ── Posts list ── */
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .post-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 1.1rem 1.4rem;
+            transition: border-color var(--ease);
+            flex-wrap: wrap;
+        }
+        .post-row:hover { border-color: var(--border); }
+
+        .post-row__info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-row__title {
+            font-size: 0.97rem;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .post-row__meta {
+            font-size: 0.78rem;
+            color: var(--text-faint);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-status {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+        }
+        .post-status--published {
+            background: rgba(22, 163, 74, 0.12);
+            color: #16a34a;
+        }
+        .post-status--draft {
+            background: var(--bg-alt);
+            color: var(--text-faint);
+        }
+        [data-theme="dark"] .post-status--published { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+
+        .post-row__actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--border-light);
+        }
+        .btn-danger:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            opacity: 1;
+        }
+
+        .admin-state {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-faint);
+            font-size: 0.95rem;
+        }
+
+        /* slug hint link */
+        .slug-regen {
+            font-size: 0.75rem;
+            color: var(--accent);
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+        .slug-regen:hover { text-decoration: underline; opacity: 1; }
+
+        @media (max-width: 560px) {
+            .post-row { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ======================================================================
+     Navigation
+     ====================================================================== -->
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+        <a class="nav-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+
+        <ul class="nav-links" id="nav-links" role="list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="milestones.html">Milestones</a></li>
+            <li><a href="join.html">Join</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="admin.html">Admin</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <button class="nav-mobile-btn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span><span></span>
+            </button>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================================================================
+     Main Content
+     ====================================================================== -->
+<main>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="label">Protected</span>
+            <h1>Admin Console</h1>
+            <p class="lead">Create, edit, and manage blog posts.</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+
+            <!-- Shown while verifying auth -->
+            <div id="admin-gate" class="admin-gate">Verifying access…</div>
+
+            <!-- Shown once admin confirmed -->
+            <div id="admin-content" hidden>
+
+                <!-- Toolbar -->
+                <div class="admin-toolbar">
+                    <h2 id="posts-count">Posts</h2>
+                    <button id="new-post-btn" class="btn btn-primary" type="button">+ New Post</button>
+                </div>
+
+                <!-- Create / Edit form -->
+                <div id="form-section" class="post-form-panel" hidden>
+                    <h3 id="form-heading">New Post</h3>
+
+                    <form id="post-form" novalidate>
+
+                        <div class="form-group">
+                            <label class="form-label" for="field-title">Title <span class="form-required">*</span></label>
+                            <input class="form-input" type="text" id="field-title" placeholder="Post title" autocomplete="off" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="field-slug">
+                                Slug <span class="form-required">*</span>
+                                <a id="slug-regen" class="slug-regen" href="#" title="Re-generate from title">regenerate</a>
+                            </label>
+                            <input class="form-input" type="text" id="field-slug" placeholder="my-post-slug" autocomplete="off" required>
+                            <p class="form-hint">Used as the unique identifier. Auto-generated from title.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="field-excerpt">Excerpt</label>
+                            <textarea class="form-textarea" id="field-excerpt" rows="2" placeholder="Short summary shown in the post list…"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="field-content">Content <span class="form-required">*</span></label>
+                            <textarea class="form-textarea form-textarea-tall" id="field-content" placeholder="Write your post content here. Separate paragraphs with a blank line." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" id="field-published">
+                                <span class="form-checkbox-label">Published — visible to all visitors</span>
+                            </label>
+                        </div>
+
+                        <p id="form-error" class="form-error" aria-live="polite"></p>
+
+                        <div class="form-actions">
+                            <button id="submit-btn" type="submit" class="btn btn-primary">Create Post</button>
+                            <button id="cancel-btn" type="button" class="btn btn-secondary">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Posts list -->
+                <div id="posts-list" class="posts-list">
+                    <div id="posts-loading" class="admin-state">Loading posts…</div>
+                    <div id="posts-empty" class="admin-state" hidden>No posts yet. Create your first one above.</div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- ======================================================================
+     Footer
+     ====================================================================== -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-inner">
+            <a class="footer-wordmark" href="index.html">Stop <em>Killing</em> Games</a>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="milestones.html">Milestones</a>
+                <a href="join.html">Join</a>
+                <a href="contact.html">Contact</a>
+                <a href="blog.html">Blog</a>
+                <a href="https://www.stopkillinggames.com" target="_blank" rel="noopener noreferrer">Official Site ↗</a>
+            </nav>
+            <p class="footer-legal">Awareness site. Not affiliated with<br>the official Stop Killing Games initiative.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="admin.js"></script>
+</body>
+</html>

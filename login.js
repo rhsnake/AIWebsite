@@ -4,11 +4,29 @@
 
     var client = window.SKG_SUPABASE;
 
+    /* Check profile role and redirect to /admin or /blog accordingly */
+    function redirectAfterLogin(session) {
+        client.from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .single()
+            .then(function (result) {
+                if (!result.error && result.data && result.data.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'blog.html';
+                }
+            })
+            .catch(function () {
+                window.location.href = 'blog.html';
+            });
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
 
         /* Redirect already-logged-in users */
         client.auth.getSession().then(function (result) {
-            if (result.data.session) window.location.href = 'join.html';
+            if (result.data.session) redirectAfterLogin(result.data.session);
         });
 
         var signInPanel   = document.getElementById('signin-panel');
@@ -59,7 +77,7 @@
                         btn.disabled    = false;
                         btn.textContent = 'Sign In';
                     } else {
-                        window.location.href = 'join.html';
+                        redirectAfterLogin(result.data.session);
                     }
                 });
         });
